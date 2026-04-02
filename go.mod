@@ -1,4 +1,4 @@
-module csv_cleaner
+module github.com/james-m-osmg/csv_cleaner
 
 go 1.25.8
 
