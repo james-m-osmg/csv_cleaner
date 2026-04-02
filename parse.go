@@ -10,6 +10,9 @@ import (
 )
 
 func ParseFileToStrings(fileName string) ([][]string, error) {
+	// Parses csv into [][]string ignoring types.
+	// This is done in 100mb chunks.
+	// The ENTIRE FILE IS LOADED INTO MEMORY
 	records := make([][]string, 0)
 
 	path := fileName
@@ -25,21 +28,10 @@ func ParseFileToStrings(fileName string) ([][]string, error) {
 		return records, err
 	}
 
-	dat, err := os.ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return records, fmt.Errorf("Failed to read file name: %s, error: %s", path, err.Error())
 	}
-
-	records, err = parseRecordsFromBytes(dat)
-	if err != nil {
-		return records, fmt.Errorf("csv parsing error in file: %s -> %s", fileName, err.Error())
-	}
-
-	return records, nil
-}
-
-func parseRecordsFromBytes(data []byte) ([][]string, error) {
-	records := [][]string{}
 
 	numBytes := len(data)
 	chunkSize := 1024 * 1024 * 100 // 100MB chunk size
@@ -61,7 +53,7 @@ func parseRecordsFromBytes(data []byte) ([][]string, error) {
 
 		newRecords, tail, err := parseChunk(curChunk, endOfFile)
 		if err != nil {
-			return records, fmt.Errorf("failed to parse chunk with err: %s", err.Error())
+			return records, fmt.Errorf("csv parsing error in file: %s -> %s", fileName, err.Error())
 		}
 
 		if endOfFile && len(tail) > 0 {
@@ -72,6 +64,7 @@ func parseRecordsFromBytes(data []byte) ([][]string, error) {
 		prevTail = tail
 		records = slices.Concat(records, newRecords)
 	}
+
 	return records, nil
 }
 

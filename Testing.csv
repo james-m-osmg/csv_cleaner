@@ -1,0 +1,8 @@
+id,name,city,score,notes
+1,Alice,New York,98,top performer
+2,Bob,Chicago,87,has empty middle field next row
+3,Carol,,91,missing city
+4,Dan,San Francisco,100,contains spaces
+5,Eve,Boston,0,
+6,Frank,Miami,72,C:\\temp\\report.txt
+7,Grace,Seattle,88,plain ascii only

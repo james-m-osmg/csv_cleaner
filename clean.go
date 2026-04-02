@@ -53,6 +53,8 @@ func CleanFile(fileName string, details CleaningDetails) error {
 		return fmt.Errorf("write records to csv: %w", err)
 	}
 
+	// This file is a work in progress. Below is a bunch of generated slop.
+
 	return nil
 	/*
 		inputFile, err := os.Open(fileName)
